@@ -1,0 +1,25 @@
+# 슬롯 사용 규칙
+
+class C: pass                           # 1번: 서브클래스에는 슬롯이 있지만, 슈퍼클래스에는 없음
+class D(C): __slots__ = ['a']           # 슬롯이 없는 경우 인스턴스 딕셔너리 생성
+X = D()                                 # 하지만 여전히 슬롯 이름은 클래스에서 관리
+X.a = 1; X.b = 2
+X.__dict__
+# {'b': 2}
+D.__dict__.keys()
+# dict_keys(['__module__', '__slots__', 'a', '__doc__'])
+
+class C: __slots__ = ['a']              # 2번: 슬롯이 슈퍼클래스에는 있으나, 서브클래스에는 없음
+class D(C): pass                        # 슬롯이 없는 경우 인스턴스 딕셔너리 생성
+X = D()                                 # 하지만 여전히 슬롯 이름은 클래스에서 관리
+X.a = 1; X.b = 2
+X.__dict__
+# {'b': 2}
+C.__dict__.keys()
+# dict_keys(['__module__', '__slots__', 'a', '__doc__'])
+
+class C: __slots__ = ['a']              # 3번: 가장 낮은 슬롯에만 접근 가능
+class D(C): __slots__ = ['a']
+
+class C: __slots__ = ['a']; a = 99      # 4번: 클래스 레벨의 기본값은 없음
+# ValueError: 'a' in __slots__ conflicts with class variable
