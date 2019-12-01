@@ -1,0 +1,43 @@
+# 예제: 메서드를 클래스에 추가하기
+
+# 수동 확장
+
+# 수동확장 - 클래스에 새로운 메서드 추가하기
+
+class Client1:
+    def __init__(self, value):
+        self.value = value
+    def spam(self):
+        return self.value * 2
+
+class Client2:
+    value = 'ni?'
+
+def eggsfunc(obj):
+    return obj.value * 4
+
+def hamfunc(obj, value):
+    return value + 'ham'
+
+Client1.eggs = eggsfunc
+Client1.ham  = hamfunc
+
+Client2.eggs = eggsfunc
+Client2.ham  = hamfunc
+
+X = Client1('Ni!')
+print(X.spam())
+print(X.eggs())
+print(X.ham('bacon'))
+
+Y = Client2()
+print(Y.eggs())
+print(Y.ham('bacon'))
+
+
+# py -3 extend-manual.py 
+# Ni!Ni!
+# Ni!Ni!Ni!Ni!
+# baconham
+# ni?ni?ni?ni?
+# baconham
